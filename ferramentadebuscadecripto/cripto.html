@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CriptoTracker — Cotações ao Vivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="cripto.css">
+</head>
+<body>
+
+  <!-- =============================================
+       CABEÇALHO — logo + botão de atualizar
+       ============================================= -->
+  <header>
+    <div class="logo">
+      <div class="logo__pulso"></div>
+      CriptoTracker
+    </div>
+    <div class="header__info">
+      <span id="ultima-atualizacao">Atualizando...</span>
+      <button id="btn-atualizar">
+        <span id="icone-refresh">↻</span> Atualizar
+      </button>
+    </div>
+  </header>
+
+  <!-- =============================================
+       BARRA DE BUSCA
+       ============================================= -->
+  <div class="busca-container">
+    <input type="text" id="busca" placeholder="🔍  Buscar por nome ou símbolo (ex: Bitcoin, BTC)...">
+  </div>
+
+  <!-- =============================================
+       ESTADO — aparece durante loading ou erro
+       ============================================= -->
+  <div id="estado">
+    <div class="spinner"></div>
+    <p>Buscando cotações ao vivo...</p>
+  </div>
+
+  <!-- =============================================
+       GRID — os cards das criptomoedas ficam aqui
+       ============================================= -->
+  <div class="grid" id="grid"></div>
+
+  <!-- =============================================
+       RODAPÉ
+       ============================================= -->
+  <footer>
+    <p>Dados fornecidos pela <strong>CoinGecko API</strong> — gratuita e sem chave de acesso.</p>
+    <p>Atualização automática a cada <strong>60 segundos</strong>. Preços em dólar americano (USD).</p>
+  </footer>
+
+  <!-- JS sempre antes de fechar o body -->
+  <script src="cripto.js"></script>
+
+</body>
+</html>

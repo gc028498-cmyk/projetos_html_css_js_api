@@ -1,0 +1,78 @@
+ <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de login da empresa</title>
+    <link rel="stylesheet" href="style.css"> 
+    <!-- //*Ponto de partida onde o css roda*// -->
+</head>
+<body>
+    <form action="">
+    <div class="titulo">    
+    <h1>Faça o seu login</h1>
+    <div class="barra-horizontal"></div>
+    </div>
+
+    <div class="campo-input">
+    <label for="email">Seu e-mail*</label>
+    <input type="email" id="e-mail" placeholder="Digite seu e-mail"/> 
+    </div>
+
+    <!-- //*o type atua como a barra que tem para digitar, deve programa-la para receber o item, sendo número ou letra*// -->
+
+    <!-- Envolvemos input + botão numa div -->
+  <div class="campo-input">
+    <label for="password">Sua senha*</label>
+    <div class="campo-senha">
+    <input type="password" id="password" placeholder="Digite sua senha" />
+    <button type="button" id="btn-senha" aria-label="Mostrar senha">👁️</button>
+        <!-- Botão com ícone de olho -->
+        </div>
+    </div>
+
+    <!-- //*o type atua como a barra que tem para digitar, deve programa-la para receber o item, sendo número ou letra*// -->
+
+    <div class="lembrar-me">
+    <p>Lembra-me</p>
+    <input type="checkbox"> 
+    <!-- //*caixinha que desmarca e marca*// -->
+    </div>
+
+    <button>Entrar</button>
+
+    <p class="esqueceu-senha"> Esqueceu sua senha? <a href="https://www.linkedin.com/in/gabriel-carvalho-de-oliveira-36394016a/">Clque aqui!</a></p>
+    </form>
+
+</body>
+
+<script>
+  // 1. Pega os elementos pelo id
+  const inputSenha = document.getElementById('password');
+  const btnSenha   = document.getElementById('btn-senha');
+
+  // 2. Escuta o clique no botão
+  btnSenha.addEventListener('click', function() {
+
+    // 3. Verifica o tipo atual e alterna
+    if (inputSenha.type === 'password') {
+      inputSenha.type = 'text';   // mostra a senha
+      btnSenha.textContent = '🙈'; // muda o ícone
+      btnSenha.setAttribute('aria-label', 'Esconder senha');
+    } else {
+      inputSenha.type = 'password'; // esconde a senha
+      btnSenha.textContent = '👁️';  // volta o ícone original
+      btnSenha.setAttribute('aria-label', 'Mostrar senha');
+    }
+
+  });
+</script>
+
+</html>
+<!-- A base para esse arquivo e esse login/ senha é o html, o CSS é a parte criativa e onde aplica as modificações e deixar mais amigavel
+
+"form" é um conjunto dentro de um código
+"Div" são pequenas sessões
+alt + z(atalho)
+ctrl + ;(atalho)
+-->

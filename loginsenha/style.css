@@ -14,9 +14,9 @@ body {
     background-color: brown;
     justify-content: center;
     align-items: center;
-    background-image: url(imagem-fundo.png);
+    background-image: url(imagem-fundo1.png);
     background-size: cover;
-    background-position: 50%;
+    background-position: 10%;
     padding: 20px;
 }
 
@@ -68,7 +68,7 @@ a {
 }
 
 .barra-horizontal{
-    background-color: #f87842;
+    background-color: #032b02;
     height: 5px;
     width: 210px;
 }
@@ -80,7 +80,7 @@ a {
     gap: 5px;
 }
     /*flex container*/
-.lembra-me  {
+.lembrar-me  {
     display: flex;
     gap: 5px;
 }
@@ -93,4 +93,35 @@ a {
 
 .esqueceu-senha {
     text-align: center;
+}
+
+/* Caixa que envolve input + botão */
+.campo-senha {
+  display: flex;           /* coloca input e botão lado a lado */
+  align-items: center;     /* alinha verticalmente */
+  background-color: #f1f1f1;
+  border-radius: 10px;
+  overflow: hidden;        /* botão respeita o border-radius */
+}
+
+/* O input ocupa todo o espaço disponível */
+.campo-senha input {
+  flex: 1;                 /* cresce para preencher */
+  background: transparent; /* herda o fundo da .campo-senha */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 0;        /* quem arredonda é o pai */
+}
+
+/* Botão do olho */
+.campo-senha button {
+  background: transparent;
+  border: none;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #888;
+  border-radius: 0;        /* sem arredondamento próprio */
+  width: auto;             /* sobrescreve o width: 160px do seu button geral */
+  align-self: auto;
 }
