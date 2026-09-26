@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Livro de Tarefas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="app-header__title">
+      <span class="app-header__eyebrow">registro diário</span>
+      <h1>Livro de Tarefas</h1>
+    </div>
+
+    <div class="app-header__controls">
+      <button id="theme-toggle-btn" class="btn-action btn-theme" aria-label="Alternar tema claro/escuro" title="Alternar tema">
+        <i data-lucide="moon" id="theme-icon"></i>
+        <span id="theme-label" class="sr-only">Tema</span>
+      </button>
+
+      <div class="app-header__today" id="today-label">
+        <!-- preenchido via JS: ex. "Sáb, 29 Ago" -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Dashboard Interativo de Tarefas -->
+  <section class="dashboard-section" aria-label="Dashboard de Tarefas">
+    <div class="dashboard-grid">
+      
+      <div class="stat-card" data-filter="all" title="Clique para ver todas as tarefas">
+        <div class="stat-card__icon stat-card__icon--total">
+          <i data-lucide="layers"></i>
+        </div>
+        <div class="stat-card__content">
+          <span class="stat-card__label">Total de Tarefas</span>
+          <span class="stat-card__value" id="stat-total">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-card--interactive" data-filter="pendentes" title="Clique para filtrar tarefas pendentes">
+        <div class="stat-card__icon stat-card__icon--pending">
+          <i data-lucide="clock"></i>
+        </div>
+        <div class="stat-card__content">
+          <span class="stat-card__label">Pendentes</span>
+          <span class="stat-card__value" id="stat-pending">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-card--interactive" data-filter="concluidas" title="Clique para filtrar tarefas concluídas">
+        <div class="stat-card__icon stat-card__icon--completed">
+          <i data-lucide="check-circle-2"></i>
+        </div>
+        <div class="stat-card__content">
+          <span class="stat-card__label">Concluídas</span>
+          <span class="stat-card__value" id="stat-completed">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card__icon stat-card__icon--rate">
+          <i data-lucide="activity"></i>
+        </div>
+        <div class="stat-card__content stat-card__content--progress">
+          <div class="stat-card__progress-header">
+            <span class="stat-card__label">Conclusão</span>
+            <span class="stat-card__percent" id="stat-rate">0%</span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="stat-progress-bar" style="width: 0%;"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Barra de Filtros Rápidos -->
+    <div class="filter-bar">
+      <span class="filter-bar__label">Filtrar:</span>
+      <button class="filter-pill active" data-filter="all">Todas (<span id="filter-count-all">0</span>)</button>
+      <button class="filter-pill" data-filter="pendentes">Pendentes (<span id="filter-count-pending">0</span>)</button>
+      <button class="filter-pill" data-filter="concluidas">Concluídas (<span id="filter-count-completed">0</span>)</button>
+      <span class="filter-bar__divider">|</span>
+      <button class="filter-pill filter-pill--alta" data-filter="alta">Alta (<span id="filter-count-alta">0</span>)</button>
+      <button class="filter-pill filter-pill--media" data-filter="media">Média (<span id="filter-count-media">0</span>)</button>
+      <button class="filter-pill filter-pill--baixa" data-filter="baixa">Baixa (<span id="filter-count-baixa">0</span>)</button>
+    </div>
+  </section>
+
+  <main class="layout">
+
+    <!-- Coluna esquerda: painel de tarefas -->
+    <section class="panel tasks-panel" aria-labelledby="tasks-heading">
+      <div class="panel__header">
+        <i data-lucide="check-square" class="panel__header-icon"></i>
+        <h2 id="tasks-heading" class="panel__heading">Tarefas</h2>
+        <span id="active-filter-badge" class="filter-badge" style="display: none;"></span>
+      </div>
+
+      <form id="task-form" class="task-form">
+        <div class="task-form__row">
+          <label for="task-title">Título</label>
+          <input type="text" id="task-title" name="title" placeholder="Ex: Revisar relatório" required>
+        </div>
+
+        <div class="task-form__row task-form__row--split">
+          <div>
+            <label for="task-date">Data</label>
+            <input type="date" id="task-date" name="date" required>
+          </div>
+          <div>
+            <label for="task-priority">Prioridade</label>
+            <select id="task-priority" name="priority">
+              <option value="baixa">Baixa</option>
+              <option value="media" selected>Média</option>
+              <option value="alta">Alta</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="task-form__row">
+          <label for="task-desc">Descrição</label>
+          <textarea id="task-desc" name="description" rows="2" placeholder="Detalhes (opcional)"></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary">
+          <i data-lucide="plus-circle" class="btn-icon-inside"></i>
+          <span>Adicionar tarefa</span>
+        </button>
+      </form>
+
+      <ul id="task-list" class="task-list">
+        <!-- itens de tarefa injetados via JS -->
+        <li class="task-list__empty">Nenhuma tarefa registrada ainda.</li>
+      </ul>
+    </section>
+
+    <!-- Coluna direita: calendário -->
+    <section class="panel calendar-panel" aria-labelledby="calendar-label">
+      <div class="calendar-panel__nav">
+        <button id="prev-month" class="btn-icon" aria-label="Mês anterior">
+          <i data-lucide="chevron-left"></i>
+        </button>
+        <div class="calendar-panel__title-wrap">
+          <i data-lucide="calendar" class="panel__header-icon"></i>
+          <h2 id="calendar-label" class="panel__heading">Mês / Ano</h2>
+        </div>
+        <button id="next-month" class="btn-icon" aria-label="Próximo mês">
+          <i data-lucide="chevron-right"></i>
+        </button>
+      </div>
+
+      <div class="calendar-grid__weekdays">
+        <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+      </div>
+
+      <div id="calendar-grid" class="calendar-grid">
+        <!-- células do calendário injetadas via JS -->
+      </div>
+
+      <div class="calendar-panel__day-detail" id="day-detail">
+        <p class="calendar-panel__hint">Selecione um dia para ver as tarefas.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Chatbot Flutuante Ollama -->
+  <div class="chatbot-widget" id="chatbot-widget">
+    <button id="chatbot-toggle-btn" class="chatbot-toggle-btn" aria-label="Abrir assistente com IA" title="Assistente IA (Ollama Gemma4)">
+      <i data-lucide="bot" class="chatbot-toggle-icon"></i>
+      <span class="chatbot-pulse-ring"></span>
+    </button>
+
+    <div class="chatbot-window" id="chatbot-window" aria-hidden="true">
+      <header class="chatbot-header">
+        <div class="chatbot-header__info">
+          <div class="chatbot-avatar">
+            <i data-lucide="bot"></i>
+          </div>
+          <div>
+            <h3 class="chatbot-title">Assistente Gemma</h3>
+            <span class="chatbot-status"><span class="status-dot"></span> Ollama (gemma4)</span>
+          </div>
+        </div>
+        <div class="chatbot-header__actions">
+          <button id="chatbot-clear-btn" class="btn-icon-subtle" title="Limpar histórico da conversa" aria-label="Limpar histórico">
+            <i data-lucide="trash-2"></i>
+          </button>
+          <button id="chatbot-close-btn" class="btn-icon-subtle" title="Fechar chat" aria-label="Fechar chat">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+      </header>
+
+      <div class="chatbot-messages" id="chatbot-messages">
+        <!-- Mensagens inseridas via JS -->
+      </div>
+
+      <form class="chatbot-form" id="chatbot-form">
+        <input type="text" id="chatbot-input" placeholder="Pergunte algo ou peça uma tradução..." autocomplete="off" required>
+        <button type="submit" class="btn-primary chatbot-send-btn" id="chatbot-send-btn" aria-label="Enviar mensagem" title="Enviar">
+          <i data-lucide="send"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
